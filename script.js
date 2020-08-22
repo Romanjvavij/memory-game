@@ -1,6 +1,7 @@
 // DOM
 let inputUsername = document.querySelector("input[id='username']");
 let btnStart = document.querySelector("input[value=Start]");
+let divTimer = document.querySelector("div#timer");
 
 // Username
 inputUsername.addEventListener("keydown", function () {
@@ -38,6 +39,7 @@ let difficultyCards = [
   },
 ];
 
+// Table
 let createTable = () => {
   // Get difficulty
   let radioDifficultyChecked = document.querySelector("input[name=difficulty]:checked");
@@ -66,3 +68,22 @@ let createTable = () => {
 }
 
 btnStart.addEventListener("click", createTable);
+
+// Timer
+let timer = null;
+btnStart.addEventListener("click", function () {
+  btnStart.classList.toggle("started");
+  if (btnStart.className.includes("started")) {
+    let ctr = 0;
+    if (timer === null) {
+      timer = setInterval(() => {
+        ctr++;
+        divTimer.textContent = ctr;
+      }, 1000);
+    }
+  } else {
+    clearInterval(timer);
+    divTimer.textContent = 0;
+    timer = null;
+  }
+});
