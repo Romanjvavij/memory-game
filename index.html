@@ -10,9 +10,27 @@
 
 <body>
   <h1>Memory game</h1>
-  <label for="username">Enter username to start.</label>
-  <input type="text" id="username">
 
+  <div>
+    <label for="username">Enter username:</label>
+    <input type="text" id="username">
+  </div>
+
+  <div>
+    <label>Choose your difficulty:</label>
+    <input type="radio" name="difficulty" id="easy" checked>Easy
+    <input type="radio" name="difficulty" id="medium">Medium
+    <input type="radio" name="difficulty" id="hard">Hard
+    <input type="radio" name="difficulty" id="expert">Expert
+  </div>
+
+  <input type="button" value="Start" disabled>
+
+  <div id="table"></div>
+
+  <footer>
+    Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+  </footer>
   <script src="./script.js"></script>
 </body>
 
