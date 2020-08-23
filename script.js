@@ -58,7 +58,7 @@ let createTable = () => {
   for (let i = 0; i < nCards; i++) {
     let div = document.createElement("div");
     let img = document.createElement("img");
-    img.setAttribute("src", `./img/question.png`);
+    img.setAttribute("src", `./img/front_face/question.png`);
     div.appendChild(img);
     divTableNew.appendChild(div);
   }
