@@ -1,7 +1,44 @@
-/* Table */
-div#table div {
-  display: inline-block;
+/* Game table */
+div#table {
+  display: grid;
+  gap: 10px;
 }
+div#table.easy {
+  grid-template-columns: repeat(4, 1fr);
+}
+div#table.medium {
+  grid-template-columns: repeat(6, 1fr);
+}
+div#table.hard {
+  grid-template-columns: repeat(8, 1fr);
+}
+div#table.expert {
+  grid-template-columns: repeat(10, 1fr);
+}
+
+div#table div.card{
+  position: relative;
+  padding-top: 100%;
+}
+
 img {
-  width: 50px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Leaderboard */
+table#leaderboard {
+  border-collapse: collapse;
+}
+table#leaderboard tr th {
+  border: 1px solid #000;
+  height: 2rem;
+}
+table#leaderboard tr td {
+  border: 1px solid #000;
+  height: 2rem;
+  
 }

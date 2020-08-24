@@ -9,30 +9,119 @@
 </head>
 
 <body>
-  <h1>Memory game</h1>
-
   <div>
-    <label for="username">Enter username:</label>
-    <input type="text" id="username">
+    <h1>Memory game</h1>
+
+    <div>
+      <label for="username">Enter username:</label>
+      <input type="text" id="username">
+    </div>
+
+    <div>
+      <label>Choose your difficulty:</label>
+      <input type="radio" name="difficulty" id="easy" checked>Easy
+      <input type="radio" name="difficulty" id="medium">Medium
+      <input type="radio" name="difficulty" id="hard">Hard
+      <input type="radio" name="difficulty" id="expert">Expert
+    </div>
+
+    <input type="button" value="Start" disabled>
+
+    <div id="timer">0</div>
+
+    <div id="table" class="easy">
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+      <div class="card">
+        <img src="./img/back_face/question.png">
+      </div>
+    </div>
   </div>
 
   <div>
-    <label>Choose your difficulty:</label>
-    <input type="radio" name="difficulty" id="easy" checked>Easy
-    <input type="radio" name="difficulty" id="medium">Medium
-    <input type="radio" name="difficulty" id="hard">Hard
-    <input type="radio" name="difficulty" id="expert">Expert
+    <div>
+      <input type="button" value="Easy">
+      <input type="button" value="Medium">
+      <input type="button" value="Hard">
+      <input type="button" value="Expert">
+    </div>
+    <table id="leaderboard">
+      <tr>
+        <th>Place</th>
+        <th>Username</th>
+        <th>Time</th>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
   </div>
 
-  <input type="button" value="Start" disabled>
-
-  <div id="timer">0</div>
-
-  <div id="table"></div>
 
   <footer>
     Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
   </footer>
+
   <script src="./images.js"></script>
   <script src="./script.js"></script>
 </body>

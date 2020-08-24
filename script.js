@@ -54,11 +54,12 @@ let createTable = () => {
   // Create divTableNew
   let divTableNew = document.createElement("div");
   divTableNew.id = "table";
-  divTableNew.className = `t-${difficulty}`;
+  divTableNew.className = `${difficulty}`;
   for (let i = 0; i < nCards; i++) {
     let div = document.createElement("div");
+    div.className = "card";
     let img = document.createElement("img");
-    img.setAttribute("src", `./img/front_face/question.png`);
+    img.setAttribute("src", `./img/back_face/question.png`);
     div.appendChild(img);
     divTableNew.appendChild(div);
   }
