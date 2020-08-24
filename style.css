@@ -1,7 +1,21 @@
+/* Resets */
+* {
+  box-sizing: border-box;
+}
+
+/* Username and difficulty */
+div#un label {
+  display: block;
+}
+div#diff label {
+  display: block;
+}
+
 /* Game table */
 div#table {
   display: grid;
   gap: 10px;
+  /* width: 400px; */
 }
 div#table.easy {
   grid-template-columns: repeat(4, 1fr);
@@ -30,15 +44,49 @@ img {
 }
 
 /* Leaderboard */
-table#leaderboard {
-  border-collapse: collapse;
+div#leaderboard input[type="button"] {
+  float: left;
+  width: 50%;
 }
-table#leaderboard tr th {
+
+div#leaderboard table{
+  border-collapse: collapse;
+  width: 100%;
+}
+div#leaderboard tr th {
   border: 1px solid #000;
   height: 2rem;
 }
-table#leaderboard tr td {
+div#leaderboard tr td {
   border: 1px solid #000;
   height: 2rem;
   
+}
+
+/* Responsivenes */
+/* Mobile */
+
+/* Tablet */
+@media only screen and (min-width: 600px) {
+  div#un label {
+    display: inline-block;
+  }
+  div#diff label {
+    display: inline-block;
+  }
+  div#leaderboard input[type="button"] {
+    width: 25%;
+  }
+}
+
+/* Desktop */
+@media only screen and (min-width: 900px) {
+  body>div {
+    overflow: hidden;
+  }
+  
+  *[class*=col] {
+    float: left;
+    overflow: hidden;
+  }
 }
