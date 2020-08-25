@@ -88,3 +88,15 @@ btnStart.addEventListener("click", function () {
     timer = null;
   }
 });
+
+// Randomize array
+let randomizeArr = arr => {
+  let temp;
+  for (let i = arr[arr.length - 1]; i > 0; i--) {
+    let j = Math.floor(Math.random() * i);
+    temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+  return arr;
+};
