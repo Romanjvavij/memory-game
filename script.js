@@ -92,7 +92,7 @@ btnStart.addEventListener("click", function () {
 // Randomize array
 let randomizeArr = arr => {
   let temp;
-  for (let i = arr[arr.length - 1]; i > 0; i--) {
+  for (let i = arr.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * i);
     temp = arr[i];
     arr[i] = arr[j];
