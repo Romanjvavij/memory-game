@@ -58,6 +58,7 @@ let createTable = () => {
     imagesRndm[2 * i + 1] = images[i];
   }
   randomizeArr(imagesRndm); // Pitanje1: Funkcija randomizeArr() je definisana kasnije, zašto radi? Async?
+
   // Create divTableNew
   let divTableNew = document.createElement("div");
   divTableNew.id = "table";
@@ -84,6 +85,19 @@ let createTable = () => {
 }
 
 btnStart.addEventListener("click", createTable);
+
+btnStart.addEventListener("click", function () {
+  // Pitanje2: Da li flipCards može da se izvuče iz createTable eventa? Zavistan je od trenutka kada se napravi tabela..
+  // flipCards
+  let cards = document.querySelectorAll(".card");
+  let flipCard = function () {
+    this.classList.toggle("flip");
+    console.log(this);
+  };
+  cards.forEach(card => {
+    card.addEventListener("click", flipCard);
+  });
+});
 
 // Timer
 let timer = null;
