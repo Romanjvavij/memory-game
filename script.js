@@ -2,20 +2,23 @@
 let inputUsername = document.querySelector("input[id='username']");
 let divTimer = document.querySelector("div#timer");
 
-// Username
 inputUsername.addEventListener("keydown", function () {
   if (event.keyCode === 13) {
-    // Validation
-    let username = this.value;
-    if (username.trim() === "" || username === null) {
-      alert("Please enter a valid username");
+    let isValidUsername = this.value.trim() !== "" && this.value !== null;
+    if (isValidUsername) {
+      startGame();
     } else {
-      localStorage.setItem("username", username);
-      this.placeholder = this.value;
-      this.value = "";
+      alert("Please enter a valid username");
     }
   }
 });
+
+let startGame = () => {
+  localStorage.setItem("username", username);
+  createTable();
+  startTimer();
+  matchCards();
+};
 
 // Table
 let createTable = () => {
@@ -35,8 +38,7 @@ let createTable = () => {
     imagesRndm[2 * i] = images[i];
     imagesRndm[2 * i + 1] = images[i];
   }
-  randomizeArr(imagesRndm); // Pitanje1: Funkcija randomizeArr() je definisana kasnije, zašto radi? Async?
-
+  randomizeArr(imagesRndm);
   // Create divTableNew
   let divTableNew = document.createElement("div");
   divTableNew.id = "table";
@@ -64,81 +66,6 @@ let createTable = () => {
   divTable.replaceWith(divTableNew);
 }
 
-inputUsername.addEventListener("keydown", function () {
-  if (event.keyCode === 13) {
-    createTable();
-  }
-});
-
-// Cards
-let cardsGeneral = () => {
-  let cards = document.querySelectorAll(".card");
-
-  let ctr = 0;
-  let firstCard;
-  let secondCard;
-
-  matchCards = function () {
-    this.classList.add("flip");
-
-    if (this.className.includes("flip")) {
-      ctr++;
-      if (ctr === 1) {
-        firstCard = this;
-      } else if (ctr === 2) {
-        secondCard = this;
-        ctr = 0;
-
-        if (firstCard.querySelector(".front").alt === secondCard.querySelector(".front").alt) {
-          console.log("Match")
-          firstCard.removeEventListener("click", matchCards);
-          secondCard.removeEventListener("click", matchCards);
-        } else {
-          setTimeout(() => {
-            firstCard.classList.remove("flip");
-            secondCard.classList.remove("flip");
-          }, 1000);
-        }
-      }
-    }
-
-  };
-
-  cards.forEach(card => {
-    card.addEventListener("click", matchCards)
-  });
-};
-
-inputUsername.addEventListener("keydown", function () {
-  if (event.keyCode === 13) {
-    cardsGeneral();
-  }
-});
-
-let matchCards = () => {
-  let cards = document.querySelectorAll(".card");
-  cards.forEach(card => {
-    card.addEventListener("click", function () {
-      let firstCard = this;
-    });
-  });
-}
-
-// Timer
-let startTimer = () => {
-  let ctr = 0;
-  let timer = setInterval(() => {
-    ctr++;
-    divTimer.textContent = ctr;
-  }, 1000);
-};
-
-inputUsername.addEventListener("keydown", function () {
-  if (event.keyCode === 13) {
-    startTimer();
-  }
-});
-
 // Randomize array
 let randomizeArr = arr => {
   let temp;
@@ -150,3 +77,53 @@ let randomizeArr = arr => {
   }
   return arr;
 }
+
+// Timer
+let startTimer = () => {
+  let ctr = 0;
+  let timer = setInterval(() => {
+    ctr++;
+    divTimer.textContent = ctr;
+  }, 1000);
+};
+
+// Cards
+let matchCards = () => {
+  let divTable = document.querySelector("#table");
+  let ctr = 0;
+  let firstCard;
+  let secondCard;
+
+  divTable.addEventListener("click", function () {
+    let card = event.target.parentNode;
+    // 1 is card fliped
+    if (card.className.includes("flip")) {
+      // 2 yes
+
+      // 3 no
+    } else {
+      // 4 flip card and add to ctr
+      card.classList.add("flip");
+      ctr++;
+
+      if (ctr === 1) {
+        // 5 set it to firstCard
+        firstCard = card;
+      } else if (ctr === 2) {
+        // 6 set it to secondCard
+        secondCard = card;
+        ctr = 0;
+        console.log(firstCard, secondCard);
+
+        if (firstCard.querySelector(".front").alt === secondCard.querySelector(".front").alt) {
+          console.log("Match!");
+        } else {
+          setTimeout(() => {
+            firstCard.classList.remove("flip");
+            secondCard.classList.remove("flip");
+          }, 1000);
+        }
+      }
+    }
+  });
+};
