@@ -51,6 +51,13 @@ let createTable = () => {
       nCards = elem.cards;
     }
   });
+  // Create and randomize img array
+  let imagesRndm = [];
+  for (let i = 0; i < nCards / 2; i++) {
+    imagesRndm[2 * i] = images[i];
+    imagesRndm[2 * i + 1] = images[i];
+  }
+  randomizeArr(imagesRndm); // Pitanje1: Funkcija randomizeArr() je definisana kasnije, zašto radi? Async?
   // Create divTableNew
   let divTableNew = document.createElement("div");
   divTableNew.id = "table";
@@ -58,9 +65,17 @@ let createTable = () => {
   for (let i = 0; i < nCards; i++) {
     let div = document.createElement("div");
     div.className = "card";
-    let img = document.createElement("img");
-    img.setAttribute("src", `./img/back_face/question.png`);
-    div.appendChild(img);
+    for (let j = 0; j < 2; j++) {
+      let img = document.createElement("img");
+      if (j === 0) {
+        img.src = `./img/back_face/question.png`;
+        img.classList = "back";
+      } else {
+        img.src = `./img/front_face/${imagesRndm[i]}`;
+        img.classList = "front";
+      }
+      div.appendChild(img);
+    }
     divTableNew.appendChild(div);
   }
   // Replace divTable
@@ -99,4 +114,4 @@ let randomizeArr = arr => {
     arr[j] = temp;
   }
   return arr;
-};
+}
