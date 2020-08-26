@@ -1,6 +1,8 @@
 // DOM
 let inputUsername = document.querySelector("input[id='username']");
 let divTimer = document.querySelector("div#timer");
+let isVictory = false;
+let timer;
 
 inputUsername.addEventListener("keydown", function () {
   if (event.keyCode === 13) {
@@ -14,31 +16,51 @@ inputUsername.addEventListener("keydown", function () {
 });
 
 let startGame = () => {
+  let username = inputUsername.value;
   localStorage.setItem("username", username);
   createTable();
   startTimer();
   matchCards();
+  victory();
 };
 
-// Table
-let createTable = () => {
-  // Get difficulty
-  let radioDifficultyChecked = document.querySelector("input[name=difficulty]:checked");
-  let difficulty = radioDifficultyChecked.id;
-  // Get no. of cards
+// Dependencies
+let randomizeArr = arr => {
+  let temp;
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * i);
+    temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  }
+  return arr;
+};
+
+let getDifficulty = () => document.querySelector("input[name=difficulty]:checked").id;
+
+let getNumOfCards = (difficulty) => {
   let nCards = 0;
   difficultyCards.forEach(elem => {
     if (elem.difficulty === difficulty) {
       nCards = elem.cards;
     }
   });
+  return nCards;
+};
+
+// Table
+let createTable = () => {
+  // Get difficulty
+  let difficulty = getDifficulty();
+  // Get no. of cards
+  let nCards = getNumOfCards(difficulty);
   // Create and randomize img array
   let imagesRndm = [];
   for (let i = 0; i < nCards / 2; i++) {
     imagesRndm[2 * i] = images[i];
     imagesRndm[2 * i + 1] = images[i];
   }
-  randomizeArr(imagesRndm);
+  // randomizeArr(imagesRndm);
   // Create divTableNew
   let divTableNew = document.createElement("div");
   divTableNew.id = "table";
@@ -64,24 +86,12 @@ let createTable = () => {
   // Replace divTable
   let divTable = document.querySelector("div#table");
   divTable.replaceWith(divTableNew);
-}
-
-// Randomize array
-let randomizeArr = arr => {
-  let temp;
-  for (let i = arr.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * i);
-    temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-  }
-  return arr;
-}
+};
 
 // Timer
 let startTimer = () => {
   let ctr = 0;
-  let timer = setInterval(() => {
+  timer = setInterval(() => {
     ctr++;
     divTimer.textContent = ctr;
   }, 1000);
@@ -93,6 +103,9 @@ let matchCards = () => {
   let ctr = 0;
   let firstCard;
   let secondCard;
+  let ctrSuccess = 0;
+  let difficulty = getDifficulty();
+  let noCards = getNumOfCards(difficulty);
 
   divTable.addEventListener("click", function () {
     let card = event.target.parentNode;
@@ -113,10 +126,13 @@ let matchCards = () => {
         // 6 set it to secondCard
         secondCard = card;
         ctr = 0;
-        console.log(firstCard, secondCard);
-
-        if (firstCard.querySelector(".front").alt === secondCard.querySelector(".front").alt) {
-          console.log("Match!");
+        // isMatch
+        let isMatch = firstCard.querySelector(".front").alt === secondCard.querySelector(".front").alt;
+        if (isMatch) {
+          ctrSuccess++;
+          if (ctrSuccess === noCards / 2) {
+            isVictory = true;
+          }
         } else {
           setTimeout(() => {
             firstCard.classList.remove("flip");
@@ -124,6 +140,21 @@ let matchCards = () => {
           }, 1000);
         }
       }
+    }
+  });
+};
+
+let victory = () => {
+  let divTable = document.querySelector("#table");
+  divTable.addEventListener("click", function () {
+    if (isVictory) {
+      let winTime = divTimer.textContent;
+      clearInterval(timer);
+      let name = localStorage.getItem("username");
+      alert(`Victory!
+      Congradulations ${name} on beating the game :)
+      Youre time is ${winTime} seconds.
+      Try other difficulties to test your skill.`);
     }
   });
 };
