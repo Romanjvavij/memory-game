@@ -48,9 +48,11 @@ let createTable = () => {
       let img = document.createElement("img");
       if (j === 0) {
         img.src = `./img/back_face/question.png`;
+        img.alt = `question`;
         img.classList = "back";
       } else {
         img.src = `./img/front_face/${imagesRndm[i]}`;
+        img.alt = `${imagesRndm[i].slice(0, -4)}`;
         img.classList = "front";
       }
       div.appendChild(img);
@@ -69,20 +71,58 @@ inputUsername.addEventListener("keydown", function () {
 });
 
 // Cards
-let flipCards = () => {
+let cardsGeneral = () => {
   let cards = document.querySelectorAll(".card");
+
+  let ctr = 0;
+  let firstCard;
+  let secondCard;
+
+  matchCards = function () {
+    this.classList.add("flip");
+
+    if (this.className.includes("flip")) {
+      ctr++;
+      if (ctr === 1) {
+        firstCard = this;
+      } else if (ctr === 2) {
+        secondCard = this;
+        ctr = 0;
+
+        if (firstCard.querySelector(".front").alt === secondCard.querySelector(".front").alt) {
+          console.log("Match")
+          firstCard.removeEventListener("click", matchCards);
+          secondCard.removeEventListener("click", matchCards);
+        } else {
+          setTimeout(() => {
+            firstCard.classList.remove("flip");
+            secondCard.classList.remove("flip");
+          }, 1000);
+        }
+      }
+    }
+
+  };
+
   cards.forEach(card => {
-    card.addEventListener("click", function () {
-      this.classList.toggle("flip");
-    });
+    card.addEventListener("click", matchCards)
   });
 };
 
 inputUsername.addEventListener("keydown", function () {
   if (event.keyCode === 13) {
-    flipCards();
+    cardsGeneral();
   }
 });
+
+let matchCards = () => {
+  let cards = document.querySelectorAll(".card");
+  cards.forEach(card => {
+    card.addEventListener("click", function () {
+      let firstCard = this;
+    });
+  });
+}
 
 // Timer
 let startTimer = () => {
