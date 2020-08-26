@@ -1,6 +1,5 @@
 // DOM
 let inputUsername = document.querySelector("input[id='username']");
-let btnStart = document.querySelector("input[value=Start]");
 let divTimer = document.querySelector("div#timer");
 
 // Username
@@ -14,7 +13,6 @@ inputUsername.addEventListener("keydown", function () {
       localStorage.setItem("username", username);
       this.placeholder = this.value;
       this.value = "";
-      btnStart.disabled = false;
     }
   }
 });
@@ -64,37 +62,40 @@ let createTable = () => {
   divTable.replaceWith(divTableNew);
 }
 
-btnStart.addEventListener("click", createTable);
+inputUsername.addEventListener("keydown", function () {
+  if (event.keyCode === 13) {
+    createTable();
+  }
+});
 
-btnStart.addEventListener("click", function () {
-  // Pitanje2: Da li flipCards može da se izvuče iz createTable eventa? Zavistan je od trenutka kada se napravi tabela..
-  // flipCards
+// Cards
+let flipCards = () => {
   let cards = document.querySelectorAll(".card");
-  let flipCard = function () {
-    this.classList.toggle("flip");
-    console.log(this);
-  };
   cards.forEach(card => {
-    card.addEventListener("click", flipCard);
+    card.addEventListener("click", function () {
+      this.classList.toggle("flip");
+    });
   });
+};
+
+inputUsername.addEventListener("keydown", function () {
+  if (event.keyCode === 13) {
+    flipCards();
+  }
 });
 
 // Timer
-let timer = null;
-btnStart.addEventListener("click", function () {
-  btnStart.classList.toggle("started");
-  if (btnStart.className.includes("started")) {
-    let ctr = 0;
-    if (timer === null) {
-      timer = setInterval(() => {
-        ctr++;
-        divTimer.textContent = ctr;
-      }, 1000);
-    }
-  } else {
-    clearInterval(timer);
-    divTimer.textContent = 0;
-    timer = null;
+let startTimer = () => {
+  let ctr = 0;
+  let timer = setInterval(() => {
+    ctr++;
+    divTimer.textContent = ctr;
+  }, 1000);
+};
+
+inputUsername.addEventListener("keydown", function () {
+  if (event.keyCode === 13) {
+    startTimer();
   }
 });
 

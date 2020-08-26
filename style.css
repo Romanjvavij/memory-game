@@ -4,28 +4,47 @@
 }
 
 /* Username and difficulty */
-div#un label {
+#un label {
   display: block;
 }
-div#diff label {
+#diff label {
   display: block;
 }
 
+/* Timer */
+#game {
+  position: relative;
+}
+#timer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.5rem;
+  border: 1px solid #000;
+  width: 2rem;
+  height: 2rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
 /* Game table */
-div#table {
+#table {
   display: grid;
   gap: 10px;
 }
-div#table.easy {
+#table.easy {
   grid-template-columns: repeat(4, 1fr);
 }
-div#table.medium {
+#table.medium {
   grid-template-columns: repeat(6, 1fr);
 }
-div#table.hard {
+#table.hard {
   grid-template-columns: repeat(8, 1fr);
 }
-div#table.expert {
+#table.expert {
   grid-template-columns: repeat(10, 1fr);
 }
 
@@ -62,20 +81,20 @@ img {
 }
 
 /* Leaderboard */
-div#leaderboard input[type="button"] {
+#leaderboard input[type="button"] {
   float: left;
   width: 50%;
 }
 
-div#leaderboard table{
+#leaderboard table{
   border-collapse: collapse;
   width: 100%;
 }
-div#leaderboard tr th {
+#leaderboard tr th {
   border: 1px solid #000;
   height: 2rem;
 }
-div#leaderboard tr td {
+#leaderboard tr td {
   border: 1px solid #000;
   height: 2rem;
   
@@ -86,13 +105,13 @@ div#leaderboard tr td {
 
 /* Tablet */
 @media only screen and (min-width: 600px) {
-  div#un label {
+  #un label {
     display: inline-block;
   }
-  div#diff label {
+  #diff label {
     display: inline-block;
   }
-  div#leaderboard input[type="button"] {
+  #leaderboard input[type="button"] {
     width: 25%;
   }
 }
