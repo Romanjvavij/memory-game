@@ -100,44 +100,49 @@ let startTimer = () => {
 // Cards
 let matchCards = () => {
   let divTable = document.querySelector("#table");
-  let ctr = 0;
+  let ctrCard = 0;
   let firstCard;
   let secondCard;
   let ctrSuccess = 0;
   let difficulty = getDifficulty();
   let noCards = getNumOfCards(difficulty);
+  let isCardBusy = false;
 
   divTable.addEventListener("click", function () {
-    let card = event.target.parentNode;
-    // 1 is card fliped
-    if (card.className.includes("flip")) {
-      // 2 yes
+    if (event.target.tagName === "IMG" && isCardBusy === false) {
+      let card = event.target.parentNode;
+      // 1 is card fliped
+      if (card.className.includes("flip")) {
+        // 2 yes
 
-      // 3 no
-    } else {
-      // 4 flip card and add to ctr
-      card.classList.add("flip");
-      ctr++;
+        // 3 no
+      } else {
+        // 4 flip card and add to ctr
+        card.classList.add("flip");
+        ctrCard++;
 
-      if (ctr === 1) {
-        // 5 set it to firstCard
-        firstCard = card;
-      } else if (ctr === 2) {
-        // 6 set it to secondCard
-        secondCard = card;
-        ctr = 0;
-        // isMatch
-        let isMatch = firstCard.querySelector(".front").alt === secondCard.querySelector(".front").alt;
-        if (isMatch) {
-          ctrSuccess++;
-          if (ctrSuccess === noCards / 2) {
-            isVictory = true;
+        if (ctrCard === 1) {
+          // 5 set it to firstCard
+          firstCard = card;
+        } else if (ctrCard === 2) {
+          // 6 set it to secondCard
+          secondCard = card;
+          ctrCard = 0;
+          // isMatch
+          let isMatch = firstCard.querySelector(".front").alt === secondCard.querySelector(".front").alt;
+          if (isMatch) {
+            ctrSuccess++;
+            if (ctrSuccess === noCards / 2) {
+              isVictory = true;
+            }
+          } else {
+            isCardBusy = true;
+            setTimeout(() => {
+              firstCard.classList.remove("flip");
+              secondCard.classList.remove("flip");
+              isCardBusy = false;
+            }, 1000);
           }
-        } else {
-          setTimeout(() => {
-            firstCard.classList.remove("flip");
-            secondCard.classList.remove("flip");
-          }, 1000);
         }
       }
     }
