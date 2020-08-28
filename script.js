@@ -1,8 +1,11 @@
 // DOM
 let inputUsername = document.querySelector("input[id='username']");
 let divTimer = document.querySelector("div#timer");
-let isVictory = false;
 let timer;
+let user = {};
+
+let btnDiffs = document.querySelector("#btnDiffs").querySelectorAll("input");
+let topPlayers = document.querySelectorAll("topPlayers");
 
 inputUsername.addEventListener("keydown", function () {
   if (event.keyCode === 13) {
@@ -16,12 +19,10 @@ inputUsername.addEventListener("keydown", function () {
 });
 
 let startGame = () => {
-  let username = inputUsername.value;
-  localStorage.setItem("username", username);
+  createUser();
   createTable();
   startTimer();
   matchCards();
-  victory();
 };
 
 // Dependencies
@@ -36,6 +37,8 @@ let randomizeArr = arr => {
   return arr;
 };
 
+let getUsername = () => inputUsername.value;
+
 let getDifficulty = () => document.querySelector("input[name=difficulty]:checked").id;
 
 let getNumOfCards = (difficulty) => {
@@ -46,6 +49,15 @@ let getNumOfCards = (difficulty) => {
     }
   });
   return nCards;
+};
+
+// User
+let createUser = () => {
+  user = {
+    username: getUsername(),
+    difficulty: getDifficulty(),
+    time: null
+  };
 };
 
 // Table
@@ -70,6 +82,8 @@ let createTable = () => {
     div.className = "card";
     for (let j = 0; j < 2; j++) {
       let img = document.createElement("img");
+      // Prevent img drag and drop
+      img.setAttribute("onmousedown", "return false");
       if (j === 0) {
         img.src = `./img/back_face/question.png`;
         img.alt = `question`;
@@ -133,7 +147,7 @@ let matchCards = () => {
           if (isMatch) {
             ctrSuccess++;
             if (ctrSuccess === noCards / 2) {
-              isVictory = true;
+              victory();
             }
           } else {
             isCardBusy = true;
@@ -150,16 +164,51 @@ let matchCards = () => {
 };
 
 let victory = () => {
-  let divTable = document.querySelector("#table");
-  divTable.addEventListener("click", function () {
-    if (isVictory) {
-      let winTime = divTimer.textContent;
-      clearInterval(timer);
-      let name = localStorage.getItem("username");
-      alert(`Victory!
-      Congradulations ${name} on beating the game :)
-      Youre time is ${winTime} seconds.
-      Try other difficulties to test your skill.`);
+  checkTime();
+  showVictoryMessage();
+};
+
+let checkTime = () => {
+  user.time = Number(divTimer.textContent);
+
+  let key = "topUsers" + user.difficulty.charAt(0).toUpperCase() + user.difficulty.slice(1);
+  // 1st time loading, if topUsersDiff dosen't exist, create []
+  if (localStorage.getItem(key) === null) {
+    localStorage.setItem(key, "[]");
+  }
+  let topUsers = JSON.parse(localStorage.getItem(key));
+  // add
+  topUsers.push(user);
+  // sort
+  let i = topUsers.length - 1;
+  for (let j = i - 1; j >= 0; j--) {
+    if (topUsers[i].time < topUsers[j].time) {
+      let temp = topUsers[i];
+      topUsers[i] = topUsers[j];
+      topUsers[j] = temp;
+      i--;
     }
-  });
+  }
+  // remove 6th
+  if (topUsers.length === 6) {
+    topUsers.pop();
+  }
+
+  localStorage.setItem(key, JSON.stringify(topUsers));
+};
+
+let showVictoryMessage = () => {
+  let winTime = divTimer.textContent;
+  clearInterval(timer);
+  setTimeout(() => {
+    let newGame = confirm(`Victory!
+    Congradulations ${user.username} on beating the game :)
+    Youre time is ${winTime} seconds.
+    Do you wish to start a new game?`);
+    // if yes start newGame from time=0
+    if (newGame) {
+      startGame();
+    }
+    // if no let timer stay
+  }, 100);
 };

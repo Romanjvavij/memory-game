@@ -81,11 +81,14 @@ img {
 }
 
 /* Leaderboard */
+#btnDiffs {
+  overflow: hidden;
+  margin: 0.5rem 0;
+}
 #leaderboard input[type="button"] {
   float: left;
   width: 50%;
 }
-
 #leaderboard table{
   border-collapse: collapse;
   width: 100%;
