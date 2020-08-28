@@ -4,8 +4,55 @@ let divTimer = document.querySelector("div#timer");
 let timer;
 let user = {};
 
-let btnDiffs = document.querySelector("#btnDiffs").querySelectorAll("input");
-let topPlayers = document.querySelectorAll("topPlayers");
+let divLeaderboardDiff = document.querySelector("#leaderboardDiff");
+let topPlayers = document.querySelectorAll(".topPlayer");
+
+let showLeaderboard = function () {
+  let btn = event.target;
+  if (btn.value === "Easy") {
+    let topUsersLS = JSON.parse(localStorage.getItem("topUsersEasy"));
+    if (topUsersLS !== null) {
+      topUsersLS.forEach((elem, i) => {
+        let tds = topPlayers[i].querySelectorAll("td");
+        tds[0].textContent = elem.username;
+        tds[1].textContent = elem.difficulty;
+        tds[2].textContent = elem.time;
+      });
+    }
+  } else if (btn.value === "Medium") {
+    let topUsersLS = JSON.parse(localStorage.getItem("topUsersMedium"));
+    if (topUsersLS !== null) {
+      topUsersLS.forEach((elem, i) => {
+        let tds = topPlayers[i].querySelectorAll("td");
+        tds[0].textContent = elem.username;
+        tds[1].textContent = elem.difficulty;
+        tds[2].textContent = elem.time;
+      });
+    }
+  } else if (btn.value === "Hard") {
+    let topUsersLS = JSON.parse(localStorage.getItem("topUsersHard"));
+    if (topUsersLS !== null) {
+      topUsersLS.forEach((elem, i) => {
+        let tds = topPlayers[i].querySelectorAll("td");
+        tds[0].textContent = elem.username;
+        tds[1].textContent = elem.difficulty;
+        tds[2].textContent = elem.time;
+      });
+    }
+  } else if (btn.value === "Expert") {
+    let topUsersLS = JSON.parse(localStorage.getItem("topUsersExpert"));
+    if (topUsersLS !== null) {
+      topUsersLS.forEach((elem, i) => {
+        let tds = topPlayers[i].querySelectorAll("td");
+        tds[0].textContent = elem.username;
+        tds[1].textContent = elem.difficulty;
+        tds[2].textContent = elem.time;
+      });
+    }
+  }
+};
+
+divLeaderboardDiff.addEventListener("click", showLeaderboard);
 
 inputUsername.addEventListener("keydown", function () {
   if (event.keyCode === 13) {
