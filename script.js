@@ -5,30 +5,68 @@ let timer;
 let player = {};
 
 let divLeaderboardDiffBtns = document.querySelector("#leaderboardDiffBtns");
-let tableLeaderboard = document.querySelector("#leaderboardTable");
 
 let showLeaderboard = function () {
   let btn = event.target;
-  let diff = btn.value;
+  if (btn.tagName === "INPUT") {
+    let diff = btn.value;
 
-  let createLbTable = () => {
-    let table = document.createElement("table");
-    let tr = document.createElement("tr");
-    let th = document.createElement("th");
-    let td = document.createElement("td");
-    for (let i = 0; i < 6; i++) {
-      table.appendChild(tr);
-      if (i === 0) {
-        th.textContent = "Place";
-        tr.appendChild(th);
-        th.textContent = "Username";
-        tr.appendChild(th);
-        th.textContent = "Time";
-        tr.appendChild(th);
-      } else {
-
+    let createLbTable = () => {
+      let table = document.createElement("table");
+      table.id = "leaderboardTable";
+      for (let i = 0; i < 6; i++) {
+        let tr = document.createElement("tr");
+        table.appendChild(tr);
+        if (i === 0) {
+          for (let j = 0; j < 3; j++) {
+            let th = document.createElement("th");
+            if (j === 0) {
+              th.textContent = "Place";
+            } else if (j === 1) {
+              th.textContent = "Username";
+            } else {
+              th.textContent = "Time";
+            }
+            tr.appendChild(th);
+          }
+        } else {
+          let getTopPlayersFromLS = diff => { // createLbTable()
+            key = "topPlayers" + diff.charAt(0).toUpperCase() + diff.slice(1);
+            return JSON.parse(localStorage.getItem(key));
+          };
+          let topPlayers = getTopPlayersFromLS(diff);
+          let player;
+          topPlayers === null ? player = null : player = topPlayers[i - 1];
+          if (player === null || player === undefined) {
+            for (j = 0; j < 3; j++) {
+              let td = document.createElement("td");
+              td.textContent = "";
+              tr.appendChild(td);
+            }
+          } else {
+            for (j = 0; j < 3; j++) {
+              let td = document.createElement("td");
+              if (j === 0) {
+                td.textContent = i;
+              } else if (j === 1) {
+                td.textContent = player.username;
+              } else {
+                td.textContent = player.time;
+              }
+              tr.appendChild(td);
+            }
+          }
+        }
       }
-    }
+      return table;
+    };
+    let newTable = createLbTable();
+
+    let tableLeaderboard = document.querySelector("#leaderboardTable");
+    let replaceLbTable = () => {
+      tableLeaderboard.replaceWith(newTable);
+    };
+    replaceLbTable();
   }
 };
 
