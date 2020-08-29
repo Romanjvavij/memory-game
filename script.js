@@ -2,52 +2,32 @@
 let inputUsername = document.querySelector("input[id='username']");
 let divTimer = document.querySelector("div#timer");
 let timer;
-let user = {};
+let player = {};
 
 let divLeaderboardDiffBtns = document.querySelector("#leaderboardDiffBtns");
-let topPlayers = document.querySelectorAll(".topPlayer");
+let tableLeaderboard = document.querySelector("#leaderboardTable");
 
 let showLeaderboard = function () {
   let btn = event.target;
-  if (btn.value === "Easy") {
-    let topUsersLS = JSON.parse(localStorage.getItem("topUsersEasy"));
-    if (topUsersLS !== null) {
-      topUsersLS.forEach((elem, i) => {
-        let tds = topPlayers[i].querySelectorAll("td");
-        tds[0].textContent = elem.username;
-        tds[1].textContent = elem.difficulty;
-        tds[2].textContent = elem.time;
-      });
-    }
-  } else if (btn.value === "Medium") {
-    let topUsersLS = JSON.parse(localStorage.getItem("topUsersMedium"));
-    if (topUsersLS !== null) {
-      topUsersLS.forEach((elem, i) => {
-        let tds = topPlayers[i].querySelectorAll("td");
-        tds[0].textContent = elem.username;
-        tds[1].textContent = elem.difficulty;
-        tds[2].textContent = elem.time;
-      });
-    }
-  } else if (btn.value === "Hard") {
-    let topUsersLS = JSON.parse(localStorage.getItem("topUsersHard"));
-    if (topUsersLS !== null) {
-      topUsersLS.forEach((elem, i) => {
-        let tds = topPlayers[i].querySelectorAll("td");
-        tds[0].textContent = elem.username;
-        tds[1].textContent = elem.difficulty;
-        tds[2].textContent = elem.time;
-      });
-    }
-  } else if (btn.value === "Expert") {
-    let topUsersLS = JSON.parse(localStorage.getItem("topUsersExpert"));
-    if (topUsersLS !== null) {
-      topUsersLS.forEach((elem, i) => {
-        let tds = topPlayers[i].querySelectorAll("td");
-        tds[0].textContent = elem.username;
-        tds[1].textContent = elem.difficulty;
-        tds[2].textContent = elem.time;
-      });
+  let diff = btn.value;
+
+  let createLbTable = () => {
+    let table = document.createElement("table");
+    let tr = document.createElement("tr");
+    let th = document.createElement("th");
+    let td = document.createElement("td");
+    for (let i = 0; i < 6; i++) {
+      table.appendChild(tr);
+      if (i === 0) {
+        th.textContent = "Place";
+        tr.appendChild(th);
+        th.textContent = "Username";
+        tr.appendChild(th);
+        th.textContent = "Time";
+        tr.appendChild(th);
+      } else {
+
+      }
     }
   }
 };
@@ -66,8 +46,8 @@ inputUsername.addEventListener("keydown", function () {
 });
 
 let startGame = () => {
-  createUser();
-  createTable();
+  createPlayer();
+  createCardTable();
   startTimer();
   matchCards();
 };
@@ -98,9 +78,9 @@ let getNumOfCards = (difficulty) => {
   return nCards;
 };
 
-// User
-let createUser = () => {
-  user = {
+// Player
+let createPlayer = () => {
+  player = {
     username: getUsername(),
     difficulty: getDifficulty(),
     time: null
@@ -108,7 +88,7 @@ let createUser = () => {
 };
 
 // Table
-let createTable = () => {
+let createCardTable = () => {
   // Get difficulty
   let difficulty = getDifficulty();
   // Get no. of cards
@@ -216,32 +196,32 @@ let victory = () => {
 };
 
 let checkTime = () => {
-  user.time = Number(divTimer.textContent);
+  player.time = Number(divTimer.textContent);
 
-  let key = "topUsers" + user.difficulty.charAt(0).toUpperCase() + user.difficulty.slice(1);
-  // 1st time loading, if topUsersDiff dosen't exist, create []
+  let key = "topPlayers" + player.difficulty.charAt(0).toUpperCase() + player.difficulty.slice(1);
+  // 1st time loading, if topPlayersDiff dosen't exist, create []
   if (localStorage.getItem(key) === null) {
     localStorage.setItem(key, "[]");
   }
-  let topUsers = JSON.parse(localStorage.getItem(key));
+  let topPlayers = JSON.parse(localStorage.getItem(key));
   // add
-  topUsers.push(user);
+  topPlayers.push(player);
   // sort
-  let i = topUsers.length - 1;
+  let i = topPlayers.length - 1;
   for (let j = i - 1; j >= 0; j--) {
-    if (topUsers[i].time < topUsers[j].time) {
-      let temp = topUsers[i];
-      topUsers[i] = topUsers[j];
-      topUsers[j] = temp;
+    if (topPlayers[i].time < topPlayers[j].time) {
+      let temp = topPlayers[i];
+      topPlayers[i] = topPlayers[j];
+      topPlayers[j] = temp;
       i--;
     }
   }
   // remove 6th
-  if (topUsers.length === 6) {
-    topUsers.pop();
+  if (topPlayers.length === 6) {
+    topPlayers.pop();
   }
 
-  localStorage.setItem(key, JSON.stringify(topUsers));
+  localStorage.setItem(key, JSON.stringify(topPlayers));
 };
 
 let showVictoryMessage = () => {
@@ -249,7 +229,7 @@ let showVictoryMessage = () => {
   clearInterval(timer);
   setTimeout(() => {
     let newGame = confirm(`Victory!
-    Congradulations ${user.username} on beating the game :)
+    Congradulations ${player.username} on beating the game :)
     Youre time is ${winTime} seconds.
     Do you wish to start a new game?`);
     // if yes start newGame from time=0
