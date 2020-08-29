@@ -4,7 +4,7 @@ let divTimer = document.querySelector("div#timer");
 let timer;
 let user = {};
 
-let divLeaderboardDiff = document.querySelector("#leaderboardDiff");
+let divLeaderboardDiffBtns = document.querySelector("#leaderboardDiffBtns");
 let topPlayers = document.querySelectorAll(".topPlayer");
 
 let showLeaderboard = function () {
@@ -52,7 +52,7 @@ let showLeaderboard = function () {
   }
 };
 
-divLeaderboardDiff.addEventListener("click", showLeaderboard);
+divLeaderboardDiffBtns.addEventListener("click", showLeaderboard);
 
 inputUsername.addEventListener("keydown", function () {
   if (event.keyCode === 13) {
