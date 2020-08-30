@@ -1,35 +1,13 @@
 // DOM
 let inputUsername = document.querySelector("input[id='username']");
 let divTimer = document.querySelector("div#timer");
+let divLeaderboardDiffBtns = document.querySelector("#leaderboardDiffBtns");
+
 let timer;
 let player = {};
 
-let divLeaderboardDiffBtns = document.querySelector("#leaderboardDiffBtns");
-
-let getTopPlayersFromLS = diff => { // createLbTable()
-  key = "topPlayers" + diff.charAt(0).toUpperCase() + diff.slice(1);
-  return JSON.parse(localStorage.getItem(key));
-};
-
-inputUsername.addEventListener("keydown", function () {
-  if (event.keyCode === 13) {
-    let isValidUsername = this.value.trim() !== "" && this.value !== null;
-    if (isValidUsername) {
-      startGame();
-    } else {
-      alert("Please enter a valid username");
-    }
-  }
-});
-
-let startGame = () => {
-  createPlayer();
-  createCardTable();
-  startTimer();
-  matchCards();
-};
-
 // Dependencies
+// called in: createCardTable()
 let randomizeArr = arr => {
   let temp;
   for (let i = arr.length - 1; i > 0; i--) {
@@ -40,11 +18,11 @@ let randomizeArr = arr => {
   }
   return arr;
 };
-
+// called in: createPlayer()
 let getUsername = () => inputUsername.value;
-
+// called in: createPlayer(), createCardTable(), matchCards()
 let getDifficulty = () => document.querySelector("input[name=difficulty]:checked").id;
-
+// called in: createCardTable(), matchCards()
 let getNumOfCards = (difficulty) => {
   let nCards = 0;
   difficultyCards.forEach(elem => {
@@ -54,6 +32,30 @@ let getNumOfCards = (difficulty) => {
   });
   return nCards;
 };
+// called in: refreshLeaderboard()
+let getTopPlayersFromLS = diff => {
+  key = "topPlayers" + diff.charAt(0).toUpperCase() + diff.slice(1);
+  return JSON.parse(localStorage.getItem(key));
+};
+// called in: validate(), showVictoryMessage()
+let startGame = () => {
+  createPlayer();
+  createCardTable();
+  startTimer();
+  matchCards();
+};
+
+// Input
+inputUsername.addEventListener("keydown", function validate() {
+  if (event.keyCode === 13) {
+    let isValidUsername = this.value.trim() !== "" && this.value !== null;
+    if (isValidUsername) {
+      startGame();
+    } else {
+      alert("Please enter a valid username");
+    }
+  }
+});
 
 // Player
 let createPlayer = () => {
@@ -126,7 +128,8 @@ let matchCards = () => {
   let noCards = getNumOfCards(difficulty);
   let isCardBusy = false;
 
-  divTable.addEventListener("click", function () {
+  divTable.addEventListener("click", function runMatchCards() {
+    console.log("test");
     if (event.target.tagName === "IMG" && isCardBusy === false) {
       let card = event.target.parentNode;
       // 1 is card fliped
@@ -151,7 +154,11 @@ let matchCards = () => {
           if (isMatch) {
             ctrSuccess++;
             if (ctrSuccess === noCards / 2) {
-              victory();
+              // Victory
+              divTable.removeEventListener("click", runMatchCards);
+              clearInterval(timer);
+              checkTime();
+              showVictoryMessage();
             }
           } else {
             isCardBusy = true;
@@ -165,11 +172,6 @@ let matchCards = () => {
       }
     }
   });
-};
-
-let victory = () => {
-  checkTime();
-  showVictoryMessage();
 };
 
 let checkTime = () => {
@@ -203,12 +205,11 @@ let checkTime = () => {
 
 let showVictoryMessage = () => {
   let winTime = divTimer.textContent;
-  clearInterval(timer);
   setTimeout(() => {
     let newGame = confirm(`Victory!
-    Congradulations ${player.username} on beating the game :)
-    Youre time is ${winTime} seconds.
-    Do you wish to start a new game?`);
+Congratulations ${player.username} on beating the game :)
+Your time is ${winTime} seconds.
+Do you wish to start a new game?`);
     // if yes start newGame from time=0
     if (newGame) {
       startGame();
