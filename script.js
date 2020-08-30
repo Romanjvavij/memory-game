@@ -6,71 +6,10 @@ let player = {};
 
 let divLeaderboardDiffBtns = document.querySelector("#leaderboardDiffBtns");
 
-let showLeaderboard = function () {
-  let btn = event.target;
-  if (btn.tagName === "INPUT") {
-    let diff = btn.value;
-
-    let createLbTable = () => {
-      let table = document.createElement("table");
-      table.id = "leaderboardTable";
-      for (let i = 0; i < 6; i++) {
-        let tr = document.createElement("tr");
-        table.appendChild(tr);
-        if (i === 0) {
-          for (let j = 0; j < 3; j++) {
-            let th = document.createElement("th");
-            if (j === 0) {
-              th.textContent = "Place";
-            } else if (j === 1) {
-              th.textContent = "Username";
-            } else {
-              th.textContent = "Time";
-            }
-            tr.appendChild(th);
-          }
-        } else {
-          let getTopPlayersFromLS = diff => { // createLbTable()
-            key = "topPlayers" + diff.charAt(0).toUpperCase() + diff.slice(1);
-            return JSON.parse(localStorage.getItem(key));
-          };
-          let topPlayers = getTopPlayersFromLS(diff);
-          let player;
-          topPlayers === null ? player = null : player = topPlayers[i - 1];
-          if (player === null || player === undefined) {
-            for (j = 0; j < 3; j++) {
-              let td = document.createElement("td");
-              td.textContent = "";
-              tr.appendChild(td);
-            }
-          } else {
-            for (j = 0; j < 3; j++) {
-              let td = document.createElement("td");
-              if (j === 0) {
-                td.textContent = i;
-              } else if (j === 1) {
-                td.textContent = player.username;
-              } else {
-                td.textContent = player.time;
-              }
-              tr.appendChild(td);
-            }
-          }
-        }
-      }
-      return table;
-    };
-    let newTable = createLbTable();
-
-    let tableLeaderboard = document.querySelector("#leaderboardTable");
-    let replaceLbTable = () => {
-      tableLeaderboard.replaceWith(newTable);
-    };
-    replaceLbTable();
-  }
+let getTopPlayersFromLS = diff => { // createLbTable()
+  key = "topPlayers" + diff.charAt(0).toUpperCase() + diff.slice(1);
+  return JSON.parse(localStorage.getItem(key));
 };
-
-divLeaderboardDiffBtns.addEventListener("click", showLeaderboard);
 
 inputUsername.addEventListener("keydown", function () {
   if (event.keyCode === 13) {
@@ -277,3 +216,30 @@ let showVictoryMessage = () => {
     // if no let timer stay
   }, 100);
 };
+
+divLeaderboardDiffBtns.addEventListener("click", function refreshLeaderboard() {
+  let btn = event.target;
+  if (btn.tagName === "INPUT") {
+    let diff = btn.value;
+
+    // table refresh
+    // get trs
+    let trs = Array.from(document.querySelector("#leaderboardTable").querySelectorAll("tr"));
+    trs.shift();
+    // get topPlayers
+    let topPlayers = getTopPlayersFromLS(diff);
+    // if player does not exist then set "", else set player data
+    for (let i = 0; i < trs.length; i++) {
+      let tds = trs[i].querySelectorAll("td");
+      if (topPlayers === null || topPlayers[i] === undefined) {
+        tds.forEach(td => {
+          td.textContent = "";
+        });
+      } else {
+        tds[0].textContent = i + 1;
+        tds[1].textContent = topPlayers[i].username;
+        tds[2].textContent = topPlayers[i].time;
+      }
+    }
+  }
+});
