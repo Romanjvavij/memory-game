@@ -177,12 +177,10 @@ let matchCards = () => {
 let checkTime = () => {
   player.time = Number(divTimer.textContent);
 
-  let key = "topPlayers" + player.difficulty.charAt(0).toUpperCase() + player.difficulty.slice(1);
-  // 1st time loading, if topPlayersDiff dosen't exist, create []
-  if (localStorage.getItem(key) === null) {
-    localStorage.setItem(key, "[]");
+  let topPlayers = getTopPlayersFromLS(player.difficulty);
+  if (topPlayers === null) {
+    topPlayers = [];
   }
-  let topPlayers = JSON.parse(localStorage.getItem(key));
   // add
   topPlayers.push(player);
   // sort
