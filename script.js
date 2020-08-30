@@ -3,10 +3,9 @@ let inputUsername = document.querySelector("input[id='username']");
 let divTimer = document.querySelector("div#timer");
 let divLeaderboardDiffBtns = document.querySelector("#leaderboardDiffBtns");
 
+// Dependencies
 let timer;
 let player = {};
-
-// Dependencies
 // called in: createCardTable()
 let randomizeArr = arr => {
   let temp;
@@ -32,7 +31,7 @@ let getNumOfCards = (difficulty) => {
   });
   return nCards;
 };
-// called in: refreshLeaderboard()
+// called in: refreshLeaderboardOnClick(), checkTime()
 let getTopPlayersFromLS = diff => {
   key = "topPlayers" + diff.charAt(0).toUpperCase() + diff.slice(1);
   return JSON.parse(localStorage.getItem(key));
@@ -44,6 +43,28 @@ let startGame = () => {
   startTimer();
   matchCards();
 };
+// called in: refreshLeaderboardOnClick(), matchCards()
+let refreshLeaderboard = diff => {
+  // table refresh
+  // get trs
+  let trs = Array.from(document.querySelector("#leaderboardTable").querySelectorAll("tr"));
+  trs.shift();
+  // get topPlayers
+  let topPlayers = getTopPlayersFromLS(diff);
+  // if player does not exist then set "", else set player data
+  for (let i = 0; i < trs.length; i++) {
+    let tds = trs[i].querySelectorAll("td");
+    if (topPlayers === null || topPlayers[i] === undefined) {
+      tds.forEach(td => {
+        td.textContent = "";
+      });
+    } else {
+      tds[0].textContent = i + 1;
+      tds[1].textContent = topPlayers[i].username;
+      tds[2].textContent = topPlayers[i].time;
+    }
+  }
+}
 
 // Input
 inputUsername.addEventListener("keydown", function validate() {
@@ -78,7 +99,7 @@ let createCardTable = () => {
     imagesRndm[2 * i] = images[i];
     imagesRndm[2 * i + 1] = images[i];
   }
-  // randomizeArr(imagesRndm);
+  randomizeArr(imagesRndm);
   // Create divTableNew
   let divTableNew = document.createElement("div");
   divTableNew.id = "table";
@@ -129,24 +150,18 @@ let matchCards = () => {
   let isCardBusy = false;
 
   divTable.addEventListener("click", function runMatchCards() {
-    console.log("test");
     if (event.target.tagName === "IMG" && isCardBusy === false) {
       let card = event.target.parentNode;
-      // 1 is card fliped
-      if (card.className.includes("flip")) {
-        // 2 yes
-
-        // 3 no
-      } else {
-        // 4 flip card and add to ctr
+      // Is card fliped
+      if (!card.className.includes("flip")) {
+        // No, flip card and add to ctr
         card.classList.add("flip");
         ctrCard++;
-
         if (ctrCard === 1) {
-          // 5 set it to firstCard
+          // Set it to firstCard
           firstCard = card;
         } else if (ctrCard === 2) {
-          // 6 set it to secondCard
+          // Set it to secondCard
           secondCard = card;
           ctrCard = 0;
           // isMatch
@@ -158,6 +173,7 @@ let matchCards = () => {
               divTable.removeEventListener("click", runMatchCards);
               clearInterval(timer);
               checkTime();
+              refreshLeaderboard(difficulty);
               showVictoryMessage();
             }
           } else {
@@ -216,29 +232,11 @@ Do you wish to start a new game?`);
   }, 100);
 };
 
-divLeaderboardDiffBtns.addEventListener("click", function refreshLeaderboard() {
+divLeaderboardDiffBtns.addEventListener("click", function refreshLeaderboardOnClick() {
   let btn = event.target;
   if (btn.tagName === "INPUT") {
     let diff = btn.value;
 
-    // table refresh
-    // get trs
-    let trs = Array.from(document.querySelector("#leaderboardTable").querySelectorAll("tr"));
-    trs.shift();
-    // get topPlayers
-    let topPlayers = getTopPlayersFromLS(diff);
-    // if player does not exist then set "", else set player data
-    for (let i = 0; i < trs.length; i++) {
-      let tds = trs[i].querySelectorAll("td");
-      if (topPlayers === null || topPlayers[i] === undefined) {
-        tds.forEach(td => {
-          td.textContent = "";
-        });
-      } else {
-        tds[0].textContent = i + 1;
-        tds[1].textContent = topPlayers[i].username;
-        tds[2].textContent = topPlayers[i].time;
-      }
-    }
+    refreshLeaderboard(diff);
   }
 });
