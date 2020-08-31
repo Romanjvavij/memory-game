@@ -64,6 +64,12 @@ let refreshLeaderboard = diff => {
       tds[2].textContent = topPlayers[i].time;
     }
   }
+
+  divLeaderboardDiffBtns.querySelectorAll("input").forEach(input => {
+    input.removeAttribute("class", "target");
+  });
+  let value = diff.charAt(0).toUpperCase() + diff.slice(1);
+  divLeaderboardDiffBtns.querySelector(`input[value =${value}]`).className = "target";
 }
 
 // Input
@@ -240,3 +246,5 @@ divLeaderboardDiffBtns.addEventListener("click", function refreshLeaderboardOnCl
     refreshLeaderboard(diff);
   }
 });
+
+refreshLeaderboard("easy");

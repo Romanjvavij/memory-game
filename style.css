@@ -1,14 +1,44 @@
 /* Resets */
-* {
-  box-sizing: border-box;
+:root {
+  --main-color: #ff9d0a;
+  --light-color: #eee;
+  --dark-color: #444;
 }
 
-/* Username and difficulty */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  text-align: center;
+  color: var(--dark-color);
+}
+
+/* Game */
+body > div {
+  margin: 1rem;
+}
+/* Username */
 #un label {
   display: block;
 }
+#un input:focus {
+  background-color: var(--main-color);
+  color: #fff;
+  border: none;
+  box-shadow: none;
+  font-weight: bold;
+}
+
+/* Difficulty */
 #diff label {
   display: block;
+}
+#diff input[type="radio"]:checked + span {
+  color: var(--main-color);
 }
 
 /* Timer */
@@ -17,20 +47,22 @@
 }
 #timer {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 1rem;
+  right: 1rem;
   margin: 0.5rem;
   border: 1px solid #000;
-  width: 2rem;
-  height: 2rem;
+  border-radius: 10%;
+  width: 3rem;
+  height: 3rem;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 2rem;
+  background-color: var(--light-color);
 }
 
-/* Game table */
+/* Card Table */
 #table {
   display: grid;
   gap: 10px;
@@ -54,6 +86,12 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+/* Cards */
+.card {
+  box-shadow: 1px 1px 6px -3px var(--dark-color);
+  border-radius: 10%;
 }
 
 /* Flip effect */
@@ -81,13 +119,21 @@ img {
 }
 
 /* Leaderboard */
-#leaderboardDiff {
+#leaderboard h2 {
+  margin: 1rem;
+}
+#leaderboardDiffBtns {
   overflow: hidden;
   margin: 0.5rem 0;
 }
-#leaderboard input[type="button"] {
+#leaderboard .width {
   float: left;
   width: 50%;
+  padding: 0.2rem 0.2rem;
+}
+#leaderboard input[type="button"] {
+  min-height: 1.5rem;
+  width: 100%;
 }
 #leaderboard table{
   border-collapse: collapse;
@@ -96,37 +142,90 @@ img {
 #leaderboard tr th {
   border: 1px solid #000;
   height: 2rem;
+  background-color: var(--light-color);
+  color: var(--dark-color);
 }
 #leaderboard tr td {
   border: 1px solid #000;
   height: 2rem;
-  
+}
+#leaderboard input[type="button"] {
+  background-color: #fff;
+  border: 1px solid var(--dark-color);
+  border-radius: 2px;
+}
+.target {
+  background-color: var(--main-color) !important;
+  color: #fff;
+  border: none;
+  box-shadow: none;
+  font-weight: bold;
+}
+
+footer {
+  padding: 1rem 0;
+  background-color: var(--dark-color);
+  color: #fff;
 }
 
 /* Responsivenes */
 /* Mobile */
+#table, #un, #diff, .container {
+margin: 1rem auto;
+max-width: 65vh;
+}
+#un, #diff {
+  text-align: center;
+}
+#un label {
+  margin: 0.5rem;
+}
+#diff label {
+  margin: 0.5rem;
+}
 
 /* Tablet */
 @media only screen and (min-width: 600px) {
-  #un label {
-    display: inline-block;
-  }
-  #diff label {
-    display: inline-block;
-  }
-  #leaderboard input[type="button"] {
+  #leaderboard .width {
     width: 25%;
+    padding: 0rem 0.2rem;
+  }
+  /* #leaderboard input[type="button"] {
+    width: 25%;
+  } */
+  #table, #un, #diff, .container {
+    max-width: 75vh;
+  }
+  
+  #un, #diff {
+    text-align: left;
+  }
+  
+  #un label, #diff label {
+    display: inline-block;
+    width: 40%;
+    margin: 0;
   }
 }
 
 /* Desktop */
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 950px) {
   body>div {
     overflow: hidden;
+    margin: 0;
   }
   
   *[class*=col] {
     float: left;
+    width: 50%;
+    min-width: 300px;
     overflow: hidden;
+    padding: 1rem;
   }
+
+  footer {
+    position: absolute;
+    width: 100%;
+  }
+  
 }

@@ -20,10 +20,10 @@
 
       <div id="diff">
         <label>Choose your difficulty:</label>
-        <input type="radio" name="difficulty" id="easy" checked>Easy
-        <input type="radio" name="difficulty" id="medium">Medium
-        <input type="radio" name="difficulty" id="hard">Hard
-        <input type="radio" name="difficulty" id="expert">Expert
+        <input type="radio" name="difficulty" id="easy" checked><span> Easy</span>
+        <input type="radio" name="difficulty" id="medium"><span> Medium</span>
+        <input type="radio" name="difficulty" id="hard"><span> Hard</span>
+        <input type="radio" name="difficulty" id="expert"><span> Expert</span>
       </div>
 
       <div id="timer">0</div>
@@ -81,45 +81,55 @@
     </div>
 
     <div id="leaderboard" class="col">
-      <h2>Leaderboard</h2>
-      <div id="leaderboardDiffBtns">
-        <input type="button" value="Easy">
-        <input type="button" value="Medium">
-        <input type="button" value="Hard">
-        <input type="button" value="Expert">
+      <div class="container">
+        <h2>Leaderboard</h2>
+        <div id="leaderboardDiffBtns">
+          <div class="width">
+            <input type="button" value="Easy" class="target">
+          </div>
+          <div class="width">
+            <input type="button" value="Medium">
+          </div>
+          <div class="width">
+            <input type="button" value="Hard">
+          </div>
+          <div class="width">
+            <input type="button" value="Expert">
+          </div>
+        </div>
+        <table id="leaderboardTable">
+          <tr>
+            <th>Place</th>
+            <th>Username</th>
+            <th>Time</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
       </div>
-      <table id="leaderboardTable">
-        <tr>
-          <th>Place</th>
-          <th>Username</th>
-          <th>Time</th>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </table>
     </div>
   </div>
 
