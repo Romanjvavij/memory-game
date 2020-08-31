@@ -7,7 +7,7 @@ let divLeaderboardDiffBtns = document.querySelector("#leaderboardDiffBtns");
 let timer;
 let player = {};
 // called in: createCardTable()
-let randomizeArr = arr => {
+function randomizeArr(arr) {
   let temp;
   for (let i = arr.length - 1; i > 0; i--) {
     let j = Math.floor(Math.random() * i);
@@ -18,11 +18,11 @@ let randomizeArr = arr => {
   return arr;
 };
 // called in: createPlayer()
-let getUsername = () => inputUsername.value;
+function getUsername() { return inputUsername.value };
 // called in: createPlayer(), createCardTable(), matchCards()
-let getDifficulty = () => document.querySelector("input[name=difficulty]:checked").id;
+function getDifficulty() { return document.querySelector("input[name=difficulty]:checked").id };
 // called in: createCardTable(), matchCards()
-let getNumOfCards = (difficulty) => {
+function getNumOfCards(difficulty) {
   let nCards = 0;
   difficultyCards.forEach(elem => {
     if (elem.difficulty === difficulty) {
@@ -32,19 +32,12 @@ let getNumOfCards = (difficulty) => {
   return nCards;
 };
 // called in: refreshLeaderboardOnClick(), checkTime()
-let getTopPlayersFromLS = diff => {
+function getTopPlayersFromLS(diff) {
   key = "topPlayers" + diff.charAt(0).toUpperCase() + diff.slice(1);
   return JSON.parse(localStorage.getItem(key));
 };
-// called in: validate(), showVictoryMessage()
-let startGame = () => {
-  createPlayer();
-  createCardTable();
-  startTimer();
-  matchCards();
-};
 // called in: refreshLeaderboardOnClick(), matchCards()
-let refreshLeaderboard = diff => {
+function refreshLeaderboard(diff) {
   // table refresh
   // get trs
   let trs = Array.from(document.querySelector("#leaderboardTable").querySelectorAll("tr"));
@@ -84,8 +77,17 @@ inputUsername.addEventListener("keydown", function validate() {
   }
 });
 
+// Start
+// called in: validate(), showVictoryMessage()
+function startGame() {
+  createPlayer();
+  createCardTable();
+  startTimer();
+  matchCards();
+};
+
 // Player
-let createPlayer = () => {
+function createPlayer() {
   player = {
     username: getUsername(),
     difficulty: getDifficulty(),
@@ -94,7 +96,7 @@ let createPlayer = () => {
 };
 
 // Table
-let createCardTable = () => {
+function createCardTable() {
   // Get difficulty
   let difficulty = getDifficulty();
   // Get no. of cards
@@ -136,7 +138,7 @@ let createCardTable = () => {
 };
 
 // Timer
-let startTimer = () => {
+function startTimer() {
   let ctr = 0;
   timer = setInterval(() => {
     ctr++;
@@ -145,7 +147,7 @@ let startTimer = () => {
 };
 
 // Cards
-let matchCards = () => {
+function matchCards() {
   let divTable = document.querySelector("#table");
   let ctrCard = 0;
   let firstCard;
@@ -196,7 +198,7 @@ let matchCards = () => {
   });
 };
 
-let checkTime = () => {
+function checkTime() {
   player.time = Number(divTimer.textContent);
 
   let topPlayers = getTopPlayersFromLS(player.difficulty);
@@ -223,7 +225,7 @@ let checkTime = () => {
   localStorage.setItem(key, JSON.stringify(topPlayers));
 };
 
-let showVictoryMessage = () => {
+function showVictoryMessage() {
   let winTime = divTimer.textContent;
   setTimeout(() => {
     let newGame = confirm(`Victory!
