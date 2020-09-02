@@ -120,7 +120,7 @@ function createCardTable() {
       // Prevent img drag and drop
       img.setAttribute("onmousedown", "return false");
       if (j === 0) {
-        img.src = `./img/back_face/question.png`;
+        img.src = `./img/back_face/question.svg`;
         img.alt = `question`;
         img.classList = "back";
       } else {
