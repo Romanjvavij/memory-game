@@ -66,7 +66,7 @@ function refreshLeaderboard(diff) {
 }
 
 // Input
-inputUsername.addEventListener("keydown", function validate() {
+inputUsername.addEventListener("keydown", function validate(event) {
   if (event.keyCode === 13) {
     let isValidUsername = this.value.trim() !== "" && this.value !== null;
     if (isValidUsername) {
@@ -157,7 +157,7 @@ function matchCards() {
   let noCards = getNumOfCards(difficulty);
   let isCardBusy = false;
 
-  divTable.addEventListener("click", function runMatchCards() {
+  divTable.addEventListener("click", function runMatchCards(event) {
     if (event.target.tagName === "IMG" && isCardBusy === false) {
       let card = event.target.parentNode;
       // Is card fliped
@@ -240,7 +240,7 @@ Do you wish to start a new game?`);
   }, 100);
 };
 
-divLeaderboardDiffBtns.addEventListener("click", function refreshLeaderboardOnClick() {
+divLeaderboardDiffBtns.addEventListener("click", function refreshLeaderboardOnClick(event) {
   let btn = event.target;
   if (btn.tagName === "INPUT") {
     let diff = btn.value;
