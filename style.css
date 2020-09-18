@@ -134,6 +134,7 @@ img {
 #leaderboard input[type="button"] {
   min-height: 1.5rem;
   width: 100%;
+  /* stroke: none; */
 }
 #leaderboard table{
   border-collapse: collapse;
@@ -154,11 +155,12 @@ img {
   border: 1px solid var(--dark-color);
   border-radius: 2px;
 }
+#leaderboard input[type="button"]:focus {
+  outline: none;
+}
 .target {
   background-color: var(--main-color) !important;
   color: #fff;
-  border: none;
-  box-shadow: none;
   font-weight: bold;
 }
 
